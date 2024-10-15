@@ -30,11 +30,14 @@ class _SearchNewsPageState extends State<SearchNewsPage> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        TextField(
-            decoration: InputDecoration(
-                prefixIcon: const Icon(Icons.search),
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8)))),
+        Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: TextField(
+              decoration: InputDecoration(
+                  prefixIcon: const Icon(Icons.search),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8)))),
+        ),
         Expanded(
           child: ListView.builder(
             itemCount: _news.length,
