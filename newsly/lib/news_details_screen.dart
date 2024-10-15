@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:newsly/news.dart';
 
-class NewsDetailsScreen extends StatelessWidget {
+class NewsDetailsScreen extends StatefulWidget {
   const NewsDetailsScreen({super.key, required this.news});
   final News news;
+
+  @override
+  State<NewsDetailsScreen> createState() => _NewsDetailsScreenState();
+}
+
+class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
+  bool _isFavorite = false;
 
   @override
   Widget build(BuildContext context) {
@@ -15,9 +22,9 @@ class NewsDetailsScreen extends StatelessWidget {
         child: Column(
           children: [
             Hero(
-              tag: news.title,
+              tag: widget.news.title,
               child: Image.network(
-                news.urlToImage,
+                widget.news.urlToImage,
                 height: height * 0.4,
                 width: double.infinity,
                 fit: BoxFit.cover,
@@ -31,17 +38,17 @@ class NewsDetailsScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(top: 8.0),
               child: Text(
-                news.title,
+                widget.news.title,
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 20,
                 ),
               ),
             ),
-            Text(news.author),
+            Text(widget.news.author),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text(news.content),
+              child: Text(widget.news.content),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -49,7 +56,17 @@ class NewsDetailsScreen extends StatelessWidget {
                 IconButton.outlined(
                     onPressed: () {}, icon: const Icon(Icons.web)),
                 IconButton.outlined(
-                    onPressed: () {}, icon: const Icon(Icons.favorite)),
+                    onPressed: () {
+                      setState(() {
+                        _isFavorite = !_isFavorite;
+                      });
+                    },
+                    icon: Icon(
+                      Icons.favorite,
+                      color: _isFavorite
+                          ? ThemeData().primaryColor
+                          : ThemeData().hintColor,
+                    )),
               ],
             )
           ],

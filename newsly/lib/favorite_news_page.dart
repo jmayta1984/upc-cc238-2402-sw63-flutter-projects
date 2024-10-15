@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:newsly/favorite_news_item.dart';
 import 'package:newsly/news.dart';
-import 'package:newsly/news_item.dart';
 import 'package:newsly/utils.dart';
 
-class SearchNewsPage extends StatefulWidget {
-  const SearchNewsPage({super.key});
+class FavoriteNewsPage extends StatefulWidget {
+  const FavoriteNewsPage({super.key});
 
   @override
-  State<SearchNewsPage> createState() => _SearchNewsPageState();
+  State<FavoriteNewsPage> createState() => _FavoriteNewsPageState();
 }
 
-class _SearchNewsPageState extends State<SearchNewsPage> {
+class _FavoriteNewsPageState extends State<FavoriteNewsPage> {
   List<News> _news = [];
-  final TextEditingController _controller = TextEditingController();
 
   void loadData() async {
-    List maps = await Utils().loadJsonFromApi(_controller.text);
+    List maps = await Utils().loadJsonFromAssets('assets/articles.json');
     setState(() {
       _news = maps.map((json) => News.fromJson(json)).toList();
     });
@@ -34,10 +33,6 @@ class _SearchNewsPageState extends State<SearchNewsPage> {
         Padding(
           padding: const EdgeInsets.all(4.0),
           child: TextField(
-              onSubmitted: (value) {
-                loadData();
-              },
-              controller: _controller,
               decoration: InputDecoration(
                   prefixIcon: const Icon(Icons.search),
                   border: OutlineInputBorder(
@@ -47,7 +42,14 @@ class _SearchNewsPageState extends State<SearchNewsPage> {
           child: ListView.builder(
             itemCount: _news.length,
             itemBuilder: (context, index) {
-              return NewsItem(news: _news[index]);
+              return FavoriteNewsItem(
+                news: _news[index],
+                onDeleteNews: (news) {
+                  setState(() {
+                    _news.remove(news);
+                  });
+                },
+              );
             },
           ),
         )
