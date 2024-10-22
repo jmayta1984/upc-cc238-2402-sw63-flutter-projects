@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:rick_and_morty/core/constants/app_constants.dart';
 import 'package:rick_and_morty/features/character/data/remote/character_model.dart';
 import 'package:rick_and_morty/features/character/data/remote/character_service.dart';
+import 'package:rick_and_morty/features/character/presentation/pages/character_detail.dart';
 import 'package:rick_and_morty/features/character/presentation/widgets/character_list_item.dart';
 
 class CharacterListPage extends StatefulWidget {
@@ -11,29 +14,53 @@ class CharacterListPage extends StatefulWidget {
 }
 
 class _CharacterListPageState extends State<CharacterListPage> {
-  List<CharacterModel> _characters = [];
-
-  Future<void> _loadData() async {
-    List<CharacterModel> characters = await CharacterService().getCharacters();
-    setState(() {
-      _characters = characters;
-    });
-  }
+  final PagingController<int, CharacterModel> _pagingController =
+      PagingController(firstPageKey: 1);
 
   @override
   void initState() {
+    _pagingController.addPageRequestListener(
+      (page) {
+        _fetchPage(page);
+      },
+    );
     super.initState();
-    _loadData();
+  }
+
+  Future<void> _fetchPage(int page) async {
+    final newCharacters = await CharacterService().getCharacters(page);
+    final isLastPage = newCharacters.length < AppConstants.pageSize;
+    try {
+      if (isLastPage) {
+        _pagingController.appendLastPage(newCharacters);
+      } else {
+        _pagingController.appendPage(newCharacters, page + 1);
+      }
+    } catch (e) {
+      _pagingController.error = e;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-      gridDelegate: const  SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-      itemCount: _characters.length,
-      itemBuilder: (context, index) {
-        return CharacterListItem(character: _characters[index]);
-      },
+    return PagedGridView<int, CharacterModel>(
+      pagingController: _pagingController,
+      gridDelegate:
+          const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+      builderDelegate:
+          PagedChildBuilderDelegate(itemBuilder: (context, item, index) {
+        return GestureDetector(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => CharacterDetail(character: item),
+                  ));
+            },
+            child: Hero(
+              tag: item.id,
+              child: CharacterListItem(character: item)));
+      }),
     );
   }
 }

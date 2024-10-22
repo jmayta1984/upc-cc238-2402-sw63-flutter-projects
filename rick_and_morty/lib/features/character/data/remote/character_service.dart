@@ -6,9 +6,9 @@ import 'package:rick_and_morty/core/constants/app_constants.dart';
 import 'package:rick_and_morty/features/character/data/remote/character_model.dart';
 
 class CharacterService {
-  Future<List<CharacterModel>> getCharacters() async {
+  Future<List<CharacterModel>> getCharacters(int page) async {
     final Uri url =
-        Uri.parse('${AppConstants.baseUrl}${AppConstants.characterEndpoint}');
+        Uri.parse('${AppConstants.baseUrl}${AppConstants.characterEndpoint}?page=$page');
 
     http.Response response = await http.get(url);
 
