@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movie_app/features/movies/presentation/pages/movie_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -11,7 +12,7 @@ class _HomePageState extends State<HomePage> {
   int _index = 0;
 
   final List<Widget> _pages = const [
-    Text('Home'),
+    MoviePage(),
     Text('Favorites'),
     Text('Search')
   ];
@@ -21,7 +22,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.movie), label: 'Movies'),
           BottomNavigationBarItem(
               icon: Icon(Icons.favorite), label: 'Favorites'),
           BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),

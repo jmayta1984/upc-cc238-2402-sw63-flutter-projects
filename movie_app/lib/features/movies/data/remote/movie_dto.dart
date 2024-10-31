@@ -1,3 +1,6 @@
+import 'package:movie_app/core/app_constants.dart';
+import 'package:movie_app/features/movies/domain/movie.dart';
+
 class MovieDto {
   final int id;
   final String title;
@@ -25,5 +28,14 @@ class MovieDto {
       voteAverage: json['vote_average'] ?? 0.0,
     );
   }
-  
+
+  Movie toMovie() {
+    return Movie(
+        id: id,
+        title: title,
+        overview: overview,
+        releaseDate: releaseDate,
+        posterPath: AppConstants.movieImage + posterPath,
+        voteAverage: voteAverage);
+  }
 }
