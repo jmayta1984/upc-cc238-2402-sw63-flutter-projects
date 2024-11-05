@@ -7,47 +7,43 @@ class MovieListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
 
-    return Card(
-      child: SizedBox(
-        width: width / 2,
-        child: Column(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: Image.network(
-                movie.posterPath,
-                height: height / 3,
-              ),
+    return SizedBox(
+      width: 180,
+      child: Column(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: Image.network(
+              movie.posterPath,
+              height: 240,
             ),
-            Text(
-              movie.title,
-              maxLines: 1,
-              softWrap: false,
-              overflow: TextOverflow.ellipsis,
-            ),
-            Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(5, (index) {
-                  double starValue = movie.voteAverage / 2 - index;
-                  IconData icon;
-
-                  if (starValue >= 1) {
-                    icon = Icons.star;
-                  } else if (starValue > 0) {
-                    icon = Icons.star_half;
-                  } else {
-                    icon = Icons.star_border;
-                  }
-                  return Icon(
-                    icon,
-                    color: Colors.yellow.shade800,
-                  );
-                }))
-          ],
-        ),
+          ),
+          Text(
+            movie.title,
+            maxLines: 1,
+            softWrap: false,
+            overflow: TextOverflow.ellipsis,
+          ),
+          Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(5, (index) {
+                double starValue = movie.voteAverage / 2 - index;
+                IconData icon;
+    
+                if (starValue >= 1) {
+                  icon = Icons.star;
+                } else if (starValue > 0) {
+                  icon = Icons.star_half;
+                } else {
+                  icon = Icons.star_border;
+                }
+                return Icon(
+                  icon,
+                  color: Colors.yellow.shade800,
+                );
+              }))
+        ],
       ),
     );
   }
