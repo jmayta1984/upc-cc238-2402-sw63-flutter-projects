@@ -22,7 +22,30 @@ class MovieListItem extends StatelessWidget {
                 height: height / 3,
               ),
             ),
-            Text(movie.title, maxLines: 1, softWrap: false, overflow: TextOverflow.ellipsis,),
+            Text(
+              movie.title,
+              maxLines: 1,
+              softWrap: false,
+              overflow: TextOverflow.ellipsis,
+            ),
+            Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(5, (index) {
+                  double starValue = movie.voteAverage / 2 - index;
+                  IconData icon;
+
+                  if (starValue >= 1) {
+                    icon = Icons.star;
+                  } else if (starValue > 0) {
+                    icon = Icons.star_half;
+                  } else {
+                    icon = Icons.star_border;
+                  }
+                  return Icon(
+                    icon,
+                    color: Colors.yellow.shade800,
+                  );
+                }))
           ],
         ),
       ),
