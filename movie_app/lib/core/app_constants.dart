@@ -1,5 +1,6 @@
 class AppConstants {
   static const String baseUrl = 'https://api.themoviedb.org/3';
+  static const String authBaseUrl = 'https://dummyjson.com/auth/login';
 
   static const String movieEndpoint = '/movie';
 
