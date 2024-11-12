@@ -26,6 +26,11 @@ class CocktailDto {
   }
 
   Cocktail toCockTail() {
-    return Cocktail(id: id, name: name, category: category, instructions: instructions);
+    return Cocktail(
+        id: id,
+        name: name,
+        category: category,
+        instructions: instructions,
+        image: image);
   }
 }

@@ -32,15 +32,21 @@ class _CocktailSearchPageState extends State<CocktailSearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        TextField(
-          onSubmitted: (value) {
-            _loadData(value);
-          },
-        ),
-        Expanded(child: CocktailList(items: _items))
-      ],
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: [
+          TextField(
+            onSubmitted: (value) {
+              _loadData(value);
+            },
+            decoration: const InputDecoration(
+              prefixIcon: Icon(Icons.search),
+              border: OutlineInputBorder()),
+          ),
+          Expanded(child: CocktailList(items: _items))
+        ],
+      ),
     );
   }
 }
