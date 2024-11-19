@@ -1,0 +1,1 @@
+ /Users/H51-SERV/Documents/cc238/upc-cc238-2402-sw63-flutter-projects/newsly/.dart_tool/flutter_build/5258032472d251aca09d129f1b274d85/native_assets.yaml: 
